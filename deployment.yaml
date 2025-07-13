@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: telegram-bot-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: telegram-bot
+  template:
+    metadata:
+      labels:
+        app: telegram-bot
+    spec:
+      containers:
+        - name: telegram-bot
+          image: pr0meth4us/telegram-bot:latest
+          env:
+            - name: TELEGRAM_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: my-secrets
+                  key: telegram_token
+            - name: API_GATEWAY_URL
+              value: "a40339a481b52486ebad47dfcf2d4a97-1604845826.ap-southeast-1.elb.amazonaws.com"
